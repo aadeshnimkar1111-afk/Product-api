@@ -1,0 +1,27 @@
+services:
+
+  mysql:
+    image: mysql:8.4
+    container_name: product-mysql
+    environment:
+      MYSQL_DATABASE: product_db
+      MYSQL_ROOT_PASSWORD: Aadi@123
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+
+  product-api:
+    build: .
+    container_name: product-api
+    depends_on:
+      - mysql
+    ports:
+      - "8080:8080"
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/product_db
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: Aadi@123
+
+volumes:
+  mysql_data:
